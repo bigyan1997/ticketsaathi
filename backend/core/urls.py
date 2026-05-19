@@ -11,6 +11,7 @@ urlpatterns = [
     # REST API
     path('api/auth/',      include('users.urls')),
     path('api/operators/', include('operators.urls')),
+    path('api/routes/',    include('routes.urls')),
 
     # Auto-generated API docs at /api/docs/
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
