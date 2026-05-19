@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/routes/',    include('routes.urls')),
     path('api/bookings/', include('bookings.urls')),
     path('api/payments/', include('payments.urls')),
+    path('api/reviews/',  include('reviews.urls')),
 
     # Auto-generated API docs at /api/docs/
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
