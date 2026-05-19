@@ -11,11 +11,11 @@ class OperatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Operator
         fields = (
-            'id', 'user_email', 'company_name', 'registration_number',
+            'id', 'slug', 'user_email', 'company_name', 'registration_number',
             'logo', 'description', 'is_verified', 'created_at',
         )
-        # Only an admin can flip is_verified; created_at is automatic
-        read_only_fields = ('id', 'user_email', 'is_verified', 'created_at')
+        # Only an admin can flip is_verified; slug and created_at are automatic
+        read_only_fields = ('id', 'slug', 'user_email', 'is_verified', 'created_at')
 
 
 class ApplyOperatorSerializer(serializers.ModelSerializer):

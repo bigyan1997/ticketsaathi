@@ -25,8 +25,17 @@ class RouteListView(generics.ListAPIView):
     queryset = Route.objects.filter(is_active=True)
 
 
+class RouteDetailView(generics.RetrieveAPIView):
+    """GET /api/routes/{slug}/ — public detail of one route."""
+
+    serializer_class = RouteSerializer
+    permission_classes = (permissions.AllowAny,)
+    queryset = Route.objects.all()
+    lookup_field = 'slug'
+
+
 class RouteCreateView(generics.CreateAPIView):
-    """POST /api/routes/ — operators only."""
+    """POST /api/routes/create/ — operators only."""
 
     serializer_class = RouteCreateSerializer
     permission_classes = (IsOperator,)
@@ -77,11 +86,12 @@ class TripListView(generics.ListAPIView):
 
 
 class TripDetailView(generics.RetrieveAPIView):
-    """GET /api/routes/trips/{id}/ — view details of one trip."""
+    """GET /api/routes/trips/{slug}/ — view details of one trip."""
 
     serializer_class = TripSerializer
     permission_classes = (permissions.AllowAny,)
     queryset = Trip.objects.all()
+    lookup_field = 'slug'
 
 
 class TripCreateView(generics.CreateAPIView):

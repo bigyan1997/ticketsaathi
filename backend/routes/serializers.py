@@ -9,7 +9,7 @@ class RouteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'operator_name', 'origin', 'destination', 'estimated_duration', 'is_active')
+        fields = ('id', 'slug', 'operator_name', 'origin', 'destination', 'estimated_duration', 'is_active')
 
 
 class RouteCreateSerializer(serializers.ModelSerializer):
@@ -50,7 +50,7 @@ class TripSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trip
         fields = (
-            'id', 'origin', 'destination', 'operator_name',
+            'id', 'slug', 'origin', 'destination', 'operator_name',
             'bus_name', 'bus_type',
             'departure_time', 'arrival_time',
             'price', 'available_seats', 'status',

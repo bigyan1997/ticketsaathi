@@ -4,6 +4,15 @@ from .models import Operator
 from .serializers import OperatorSerializer, ApplyOperatorSerializer
 
 
+class OperatorDetailView(generics.RetrieveAPIView):
+    """GET /api/operators/{slug}/ — public profile of any operator."""
+
+    serializer_class = OperatorSerializer
+    permission_classes = (permissions.AllowAny,)
+    queryset = Operator.objects.all()
+    lookup_field = 'slug'
+
+
 class ApplyOperatorView(generics.CreateAPIView):
     """
     POST /api/operators/apply/

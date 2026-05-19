@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from operators.models import Operator
 
 
@@ -12,12 +13,24 @@ class Route(models.Model):
     operator = models.ForeignKey(Operator, on_delete=models.CASCADE, related_name='routes')
     origin = models.CharField(max_length=100)       # e.g. "Kathmandu"
     destination = models.CharField(max_length=100)  # e.g. "Pokhara"
+    slug = models.SlugField(unique=True, blank=True)  # e.g. "kathmandu-to-pokhara"
 
     # How long the journey takes, e.g. "6:30:00" = 6 hours 30 minutes
     estimated_duration = models.DurationField()
 
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(f'{self.origin}-to-{self.destination}')
+            slug = base
+            counter = 1
+            while Route.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{counter}'
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Route'
@@ -72,6 +85,7 @@ class Trip(models.Model):
 
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='trips')
     bus = models.ForeignKey(Bus, on_delete=models.CASCADE, related_name='trips')
+    slug = models.SlugField(unique=True, blank=True)  # e.g. "kathmandu-to-pokhara-2026-05-20-0700"
     departure_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
 
@@ -82,6 +96,20 @@ class Trip(models.Model):
     available_seats = models.PositiveIntegerField()
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            origin = slugify(self.route.origin)
+            destination = slugify(self.route.destination)
+            date_str = self.departure_time.strftime('%Y-%m-%d-%H%M')
+            base = f'{origin}-to-{destination}-{date_str}'
+            slug = base
+            counter = 1
+            while Trip.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base}-{counter}'
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Trip'
