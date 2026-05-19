@@ -3,15 +3,11 @@ from datetime import timedelta
 from decouple import config, Csv
 
 
-# ── Paths ──────────────────────────────────────────────────────────────────────
-
-# BASE_DIR = /home/bigyan/ticket-saathi/backend/
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # ── Security ───────────────────────────────────────────────────────────────────
 
-# Loaded from .env — never hardcode here, never commit to GitHub
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
@@ -20,7 +16,6 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv(
 # ── Apps ───────────────────────────────────────────────────────────────────────
 
 INSTALLED_APPS = [
-    # Django built-ins
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,14 +23,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third-party packages
-    'rest_framework',           # Turns Django into a JSON API
-    'rest_framework_simplejwt', # JWT token login
-    'corsheaders',              # Allows React (port 5173) to call Django (port 8000)
-    'social_django',            # Google OAuth login
-    'drf_spectacular',          # Auto-generates API docs at /api/schema/swagger-ui/
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'social_django',
+    'drf_spectacular',
 
-    # Our apps
     'users',
     'routes',
     'bookings',
@@ -49,7 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',              # Must be before CommonMiddleware
+    'corsheaders.middleware.CorsMiddleware',  # must come before CommonMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -101,13 +94,10 @@ DATABASES = {
 }
 
 
-# ── Custom User Model ──────────────────────────────────────────────────────────
+# ── Auth ───────────────────────────────────────────────────────────────────────
 
-# Must be set before the first migration — cannot change this later without resetting the DB
+# Must be set before the first migration — cannot change without resetting the DB
 AUTH_USER_MODEL = 'users.User'
-
-
-# ── Password Validation ────────────────────────────────────────────────────────
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -125,7 +115,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# ── Static & Media Files ───────────────────────────────────────────────────────
+# ── Static & Media ─────────────────────────────────────────────────────────────
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -149,7 +139,7 @@ REST_FRAMEWORK = {
 }
 
 
-# ── JWT Tokens ─────────────────────────────────────────────────────────────────
+# ── JWT ────────────────────────────────────────────────────────────────────────
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
@@ -166,7 +156,7 @@ SIMPLE_JWT = {
 
 # ── CORS ───────────────────────────────────────────────────────────────────────
 
-# Allow React dev servers to call this Django API
+# Allows the React dev server to call this Django API
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
@@ -176,7 +166,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 
-# ── API Docs (drf-spectacular) ─────────────────────────────────────────────────
+# ── API Docs ───────────────────────────────────────────────────────────────────
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Ticket Saathi API',
