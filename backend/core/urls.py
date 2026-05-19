@@ -9,7 +9,8 @@ urlpatterns = [
     path('auth/', include('social_django.urls', namespace='social')),
 
     # REST API
-    path('api/auth/', include('users.urls')),
+    path('api/auth/',      include('users.urls')),
+    path('api/operators/', include('operators.urls')),
 
     # Auto-generated API docs at /api/docs/
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
