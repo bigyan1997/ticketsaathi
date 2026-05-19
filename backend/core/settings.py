@@ -182,6 +182,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_CLIENT_ID', default='')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_CLIENT_SECRET', default='')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['openid', 'email', 'profile']
 
+# Where to send the user after a successful Google login
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://localhost:5173/'
+# Where to send the user if login fails
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'http://localhost:5173/login?error=true'
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
