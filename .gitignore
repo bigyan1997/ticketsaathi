@@ -1,0 +1,29 @@
+# Virtual environment — huge folder, machine specific, don't upload
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Secret keys — NEVER upload these to GitHub
+.env
+*.env
+
+# SQLite database — this is local development only
+db.sqlite3
+
+# Django media uploads
+media/
+
+# VS Code
+.vscode/
+
+# Node modules — npm installs these automatically
+node_modules/
+
+# React build
+dist/
+build/
+
+# Linux/Mac OS files
+.DS_Store
+Thumbs.db
